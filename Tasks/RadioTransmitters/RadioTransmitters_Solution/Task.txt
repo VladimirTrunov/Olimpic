@@ -1,0 +1,4 @@
+﻿Calculate the minum number of transmitters required to cover all houses in town.
+For example: 
+	houses [ 1 2 3 7]; coverage distance: 1; result: 2 -> 1 for [1 2 3], 2nd for [7]
+	houses [ 1 2 3 7]; coverage distance: 4; result: 1 -> 1 for [1 2 3, 7], located at 3
