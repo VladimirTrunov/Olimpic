@@ -1,4 +1,6 @@
-﻿namespace MakingCandies
+﻿using System.Numerics;
+
+namespace MakingCandies
 {
     public class Manufacture
     {
@@ -12,9 +14,9 @@
         
         public long Machines { get; set; }
 
-        public long GetCandies()
+        public BigInteger GetCandies()
         {
-            return this.ManPower * this.Machines;
+            return (BigInteger)this.ManPower * (BigInteger)this.Machines;
         }
 
         public void AddResources(long resources)

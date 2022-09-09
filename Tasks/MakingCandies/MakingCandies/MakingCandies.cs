@@ -1,4 +1,6 @@
-﻿namespace MakingCandies
+﻿using System.Numerics;
+
+namespace MakingCandies
 {
     public class MakingCandies
     {
@@ -18,7 +20,7 @@
 
         public long GetMinimalIterationsForAim()
         {
-            long totalCandies = 0;
+            BigInteger totalCandies = 0;
             long iteration = 0;
             do
             {
@@ -38,15 +40,15 @@
             return iteration;
         }
 
-        public long HowManyItemsToAdd(long currentTotalCandies)
+        public long HowManyItemsToAdd(BigInteger currentTotalCandies)
         {
-            long maxItemsToAdd = currentTotalCandies / this.PricePerUnit;
+            BigInteger maxItemsToAdd = currentTotalCandies / this.PricePerUnit;
             if (maxItemsToAdd == 0)
             {
                 return 0;
             }
 
-            long remainedIterations = MakingCandies.GetRemainedIterations(
+            BigInteger remainedIterations = MakingCandies.GetRemainedIterations(
                 this.Aim,
                 this.Manufacture.ManPower,
                 this.Manufacture.Machines,
@@ -59,7 +61,7 @@
 
             for (int i = 1; i <= maxItemsToAdd; i++)
             {
-                long remainedPrice = currentTotalCandies - i * this.PricePerUnit;
+                BigInteger remainedPrice = currentTotalCandies - i * this.PricePerUnit;
 
                 if (manpower < machines)
                 {
@@ -70,7 +72,7 @@
                     machines++;
                 }
 
-                long currentIterations = GetRemainedIterations(this.Aim, manpower, machines, remainedPrice);
+                BigInteger currentIterations = GetRemainedIterations(this.Aim, manpower, machines, remainedPrice);
 
                 if (currentIterations <= remainedIterations)
                 {
@@ -82,12 +84,11 @@
             return bestItemsCount;
         }
 
-        public static long GetRemainedIterations(long aim, long manpower, long machines, long currentTotalCandies)
+        public static BigInteger GetRemainedIterations(long aim, long manpower, long machines, BigInteger currentTotalCandies)
         {
-            long remainedCandies = aim - currentTotalCandies;
+            BigInteger remainedCandies = aim - currentTotalCandies;
 
-            long remainedIterations = remainedCandies / (manpower * machines);
-            //if (remainedCandies % (manpower * machines) != 0)
+            BigInteger remainedIterations = remainedCandies / (manpower * machines);
             if (remainedIterations * manpower * machines + currentTotalCandies < aim)
             {
                 remainedIterations++;

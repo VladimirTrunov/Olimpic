@@ -1,6 +1,7 @@
 ﻿namespace MakingCandies_Tests
 {
     using MakingCandies;
+    using System.Numerics;
 
     [TestClass]
     public class MakingCandiesTests
@@ -13,7 +14,7 @@
             int machines = 2;
             int exisitngItems = 3;
 
-            long remainedIterations = MakingCandies.GetRemainedIterations(
+            BigInteger remainedIterations = MakingCandies.GetRemainedIterations(
                 aim,
                 manpower,
                 machines,
@@ -80,6 +81,21 @@
             long minimalIterations = makingCandies.GetMinimalIterationsForAim();
 
             Assert.AreEqual(16, minimalIterations);
+        }
+
+        [TestMethod]
+        public void MainTest_5()
+        {
+            long manpower = 4294967297;
+            long machines = 4294967297;
+            long price = 1000000000000;
+            long aim = 1000000000000;
+
+            MakingCandies makingCandies = new MakingCandies(manpower, machines, price, aim);
+
+            long minimalIterations = makingCandies.GetMinimalIterationsForAim();
+
+            Assert.AreEqual(1, minimalIterations);
         }
     }
 }
