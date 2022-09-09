@@ -1,7 +1,8 @@
-﻿using System.Numerics;
-
+﻿// https://www.hackerrank.com/challenges/making-candies/problem?isFullScreen=true
 namespace MakingCandies
 {
+    using System.Numerics;
+
     public class MakingCandies
     {
         public MakingCandies(long initialManPower, long initialMachines, long pricePerUnit, long aim)
@@ -31,7 +32,7 @@ namespace MakingCandies
                     break;
                 }
 
-                long resourcesToAdd = HowManyItemsToAdd(totalCandies);
+                BigInteger resourcesToAdd = HowManyItemsToAdd(totalCandies);
                 this.Manufacture.AddResources(resourcesToAdd);
                 totalCandies -= resourcesToAdd * this.PricePerUnit;
 
@@ -40,7 +41,7 @@ namespace MakingCandies
             return iteration;
         }
 
-        public long HowManyItemsToAdd(BigInteger currentTotalCandies)
+        public BigInteger HowManyItemsToAdd(BigInteger currentTotalCandies)
         {
             BigInteger maxItemsToAdd = currentTotalCandies / this.PricePerUnit;
             if (maxItemsToAdd == 0)
@@ -54,37 +55,23 @@ namespace MakingCandies
                 this.Manufacture.Machines,
                 currentTotalCandies);
 
-            int bestItemsCount = 0;
+            BigInteger bestItemsCount = 0;
 
-            long manpower = this.Manufacture.ManPower;
-            long machines = this.Manufacture.Machines;
+            BigInteger manpower = this.Manufacture.ManPower;
+            BigInteger machines = this.Manufacture.Machines;
 
-            for (int i = 1; i <= maxItemsToAdd; i++)
+            BigInteger remainedPrice = currentTotalCandies - maxItemsToAdd * this.PricePerUnit;
+            Manufacture.PredictResources(ref manpower, ref machines, maxItemsToAdd);
+            BigInteger currentIterations = GetRemainedIterations(this.Aim, manpower, machines, remainedPrice);
+            if (currentIterations <= remainedIterations)
             {
-                BigInteger remainedPrice = currentTotalCandies - i * this.PricePerUnit;
-
-                if (manpower < machines)
-                {
-                    manpower++;
-                }
-                else
-                {
-                    machines++;
-                }
-
-                BigInteger currentIterations = GetRemainedIterations(this.Aim, manpower, machines, remainedPrice);
-
-                if (currentIterations <= remainedIterations)
-                {
-                    remainedIterations = currentIterations;
-                    bestItemsCount = i;
-                }
+                bestItemsCount = maxItemsToAdd;
             }
 
             return bestItemsCount;
         }
 
-        public static BigInteger GetRemainedIterations(long aim, long manpower, long machines, BigInteger currentTotalCandies)
+        public static BigInteger GetRemainedIterations(long aim, BigInteger manpower, BigInteger machines, BigInteger currentTotalCandies)
         {
             BigInteger remainedCandies = aim - currentTotalCandies;
 
